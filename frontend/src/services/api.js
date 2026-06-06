@@ -53,4 +53,15 @@ export const dashboardAPI = {
   batchRisks: (batchId) => api.get(`/dashboard/batch/${batchId}/risks`),
 };
 
+export const subscriptionAPI = {
+  getSubscription: (problemId, userId) => api.get(`/subscriptions/problems/${problemId}`, { params: { userId } }),
+  subscribe: (problemId, userId) => api.post(`/subscriptions/problems/${problemId}`, { userId }),
+  unsubscribe: (problemId, userId) => api.delete(`/subscriptions/problems/${problemId}`, { data: { userId } }),
+  getMySubscriptions: (userId) => api.get('/subscriptions/my', { params: { userId } }),
+  getNotifications: (userId, unreadOnly = false, limit) => api.get('/subscriptions/notifications', { params: { userId, unread_only: unreadOnly, limit } }),
+  markNotificationRead: (notificationId, userId) => api.put(`/subscriptions/notifications/${notificationId}/read`, { userId }),
+  markAllRead: (userId) => api.put('/subscriptions/notifications/read-all', { userId }),
+  getUnreadCount: (userId) => api.get('/subscriptions/notifications/unread-count', { params: { userId } }),
+};
+
 export default api;

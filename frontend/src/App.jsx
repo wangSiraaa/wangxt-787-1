@@ -8,6 +8,7 @@ import {
   ToolOutlined,
   CheckCircleOutlined,
   WarningOutlined,
+  BellOutlined,
 } from '@ant-design/icons';
 import Dashboard from './pages/Dashboard';
 import BatchList from './pages/BatchList';
@@ -40,6 +41,10 @@ function App() {
         <div className="logo">
           <ExperimentOutlined />
           模具试模问题闭环系统
+        </div>
+        <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, marginLeft: 'auto', marginRight: 20 }}>
+          <BellOutlined style={{ fontSize: 18, cursor: 'pointer' }} />
+          <span style={{ marginLeft: 8 }}>通知中心</span>
         </div>
         <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14 }}>
           质量人员 | 整改负责人 | 复测人员

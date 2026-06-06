@@ -5,35 +5,35 @@
       "username": "engineer01",
       "name": "张工程师",
       "role": "engineer",
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     },
     {
       "id": "user_quality",
       "username": "quality01",
       "name": "李质检",
       "role": "quality",
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     },
     {
       "id": "user_resp",
       "username": "resp01",
       "name": "王整改",
       "role": "rectification",
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     },
     {
       "id": "user_retest",
       "username": "retest01",
       "name": "赵复测",
       "role": "retest",
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     },
     {
       "id": "user_approver",
       "username": "approver01",
       "name": "孙审批",
       "role": "approver",
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     }
   ],
   "defect_levels": [
@@ -43,7 +43,7 @@
       "level": 1,
       "description": "关键尺寸超差、功能失效，必须复测通过才能关闭",
       "require_retest": 1,
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     },
     {
       "id": "defect_major",
@@ -51,7 +51,7 @@
       "level": 2,
       "description": "重要特性不达标，需要整改",
       "require_retest": 0,
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     },
     {
       "id": "defect_minor",
@@ -59,7 +59,7 @@
       "level": 3,
       "description": "轻微外观或非关键问题",
       "require_retest": 0,
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     },
     {
       "id": "defect_suggestion",
@@ -67,132 +67,196 @@
       "level": 4,
       "description": "优化建议类问题",
       "require_retest": 0,
-      "created_at": "2026-06-06 20:48:55"
+      "created_at": "2026-06-06 21:56:26"
     }
   ],
-  "mold_batches": [
-    {
-      "id": "batch_a1be255a863a42a0",
-      "batch_no": "TEST-001",
-      "mold_code": "MOLD-001",
-      "mold_name": "测试模具",
-      "project_name": "测试项目",
-      "trial_date": "2024-01-15",
-      "trial_params": {},
-      "created_by": "user_engineer",
-      "status": "processing",
-      "conclusion": "processing",
-      "updated_at": "2026-06-06 20:51:56"
-    },
-    {
-      "id": "batch_8209e673a4b24f81",
-      "batch_no": "SMOKE-TEST-001",
-      "mold_code": "TEST-MOLD-001",
-      "mold_name": "测试模具",
-      "project_name": "Smoke测试项目",
-      "trial_date": "2024-01-15",
-      "trial_params": {
-        "temperature": 200,
-        "pressure": 100
-      },
-      "created_by": "user_engineer",
-      "status": "processing"
-    }
-  ],
+  "mold_batches": [],
   "problems": [
     {
-      "id": "prob_3b287b2ef6514c4f",
-      "batch_id": "batch_a1be255a863a42a0",
-      "title": "测试严重问题",
-      "description": "测试描述",
+      "id": "prob_f4f7f54111164d29",
+      "batch_id": "batch_001",
+      "title": "E2E测试-表面划伤",
+      "description": "测试",
       "defect_level_id": "defect_critical",
-      "photo_urls": "[]",
+      "photo_urls": [],
       "reported_by": "user_quality",
       "status": "registered"
     },
     {
-      "id": "prob_1dff62f44fd2425a",
-      "batch_id": "batch_8209e673a4b24f81",
-      "title": "Smoke测试-严重尺寸超差问题",
-      "description": "这是一个用于测试的严重问题",
+      "id": "prob_fb272f62525146c1",
+      "batch_id": "batch_001",
+      "title": "验证测试-模具表面划伤问题",
+      "description": "测试用",
       "defect_level_id": "defect_critical",
-      "photo_urls": [
-        "/test/photo1.jpg"
-      ],
+      "photo_urls": [],
       "reported_by": "user_quality",
-      "status": "rectifying",
-      "responsible_person_id": "user_resp",
-      "deadline": "2024-12-31",
-      "updated_at": "2026-06-06 20:52:22"
+      "status": "closed",
+      "responsible_person_id": "user_mold",
+      "deadline": "2025-12-31",
+      "updated_at": "2026-06-06 22:17:03"
     }
   ],
   "rectification_measures": [
     {
-      "id": "meas_769db3fc090741fa",
-      "problem_id": "prob_1dff62f44fd2425a",
-      "measure_text": "1. 调整模具尺寸；2. 优化工艺参数",
-      "submitted_by": "user_resp"
+      "id": "meas_5677a174444e42b5",
+      "problem_id": "prob_fb272f62525146c1",
+      "measure_text": "抛光处理",
+      "submitted_by": "user_mold"
     }
   ],
   "retest_records": [
     {
-      "id": "retest_32c15a34763d470f",
-      "problem_id": "prob_1dff62f44fd2425a",
-      "result": "failed",
-      "remark": "复测不通过，尺寸仍超差",
-      "photo_urls": "[\"/test/retest-fail.jpg\"]",
-      "tested_by": "user_retest"
+      "id": "retest_c2383c9fc9d64c75",
+      "problem_id": "prob_fb272f62525146c1",
+      "result": "passed",
+      "remark": "复测通过",
+      "photo_urls": "[]",
+      "tested_by": "user_inspector"
     }
   ],
-  "approval_records": [],
+  "approval_records": [
+    {
+      "id": "appr_344dabb06fdb4499",
+      "problem_id": "prob_fb272f62525146c1",
+      "approver_id": "user_quality",
+      "action": "close",
+      "remark": "复测通过，同意关闭"
+    }
+  ],
   "problem_status_logs": [
     {
-      "id": "log_05fe720dfab14e74",
-      "problem_id": "prob_3b287b2ef6514c4f",
+      "id": "log_370854b5b1ff4a83",
+      "problem_id": "prob_f4f7f54111164d29",
       "old_status": null,
       "new_status": "registered",
       "operator_id": "user_quality",
       "remark": "问题登记"
     },
     {
-      "id": "log_9724deaf9d5249cc",
-      "problem_id": "prob_1dff62f44fd2425a",
+      "id": "log_d02035da5ae046ec",
+      "problem_id": "prob_fb272f62525146c1",
       "old_status": null,
       "new_status": "registered",
       "operator_id": "user_quality",
       "remark": "问题登记"
     },
     {
-      "id": "log_3cfbc6623dc14b7b",
-      "problem_id": "prob_1dff62f44fd2425a",
+      "id": "log_fd8a597daeb6471b",
+      "problem_id": "prob_fb272f62525146c1",
       "old_status": "registered",
       "new_status": "assigned",
       "operator_id": "user_quality",
       "remark": "整改派发"
     },
     {
-      "id": "log_424bcbd9cb0c41fe",
-      "problem_id": "prob_1dff62f44fd2425a",
+      "id": "log_123a2912dd074779",
+      "problem_id": "prob_fb272f62525146c1",
       "old_status": "assigned",
       "new_status": "rectifying",
-      "operator_id": "user_resp",
+      "operator_id": "user_mold",
       "remark": "开始整改"
     },
     {
-      "id": "log_d9df0f736ac14c50",
-      "problem_id": "prob_1dff62f44fd2425a",
+      "id": "log_25bd802aaa7244ef",
+      "problem_id": "prob_fb272f62525146c1",
       "old_status": "rectifying",
       "new_status": "rectified",
-      "operator_id": "user_resp",
+      "operator_id": "user_mold",
       "remark": "提交整改措施"
     },
     {
-      "id": "log_04bd6e0a84c14f4f",
-      "problem_id": "prob_1dff62f44fd2425a",
+      "id": "log_412478ced72946fa",
+      "problem_id": "prob_fb272f62525146c1",
       "old_status": "rectified",
+      "new_status": "retest_passed",
+      "operator_id": "user_inspector",
+      "remark": "复测通过"
+    },
+    {
+      "id": "log_9bc4e79ab8204460",
+      "problem_id": "prob_fb272f62525146c1",
+      "old_status": "retest_passed",
+      "new_status": "closed",
+      "operator_id": "user_quality",
+      "remark": "关闭审批通过"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "sub_dabfb5d35d0d4104",
+      "problem_id": "prob_f4f7f54111164d29",
+      "user_id": "user_quality",
+      "is_active": "1",
+      "created_at": "DATETIME(NOW"
+    },
+    {
+      "id": "sub_5f94d9ad4e414872",
+      "problem_id": "prob_fb272f62525146c1",
+      "user_id": "user_quality",
+      "is_active": "1",
+      "created_at": "DATETIME(NOW"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_74b6a268854a4007",
+      "user_id": "user_mold",
+      "problem_id": "prob_fb272f62525146c1",
+      "content": "【验证测试-模具表面划伤问题】状态由「已登记」变更为「已派发」。操作人：李质检。备注：整改派发",
+      "old_status": "registered",
+      "new_status": "assigned",
+      "is_read": "0",
+      "created_at": "DATETIME(NOW"
+    },
+    {
+      "id": "notif_f526809ccfa540f4",
+      "user_id": "user_quality",
+      "problem_id": "prob_fb272f62525146c1",
+      "content": "【验证测试-模具表面划伤问题】状态由「已派发」变更为「整改中」。操作人：系统。备注：开始整改",
+      "old_status": "assigned",
       "new_status": "rectifying",
-      "operator_id": "user_retest",
-      "remark": "复测失败，退回整改"
+      "is_read": "0",
+      "created_at": "DATETIME(NOW"
+    },
+    {
+      "id": "notif_03c730cf736047aa",
+      "user_id": "user_quality",
+      "problem_id": "prob_fb272f62525146c1",
+      "content": "【验证测试-模具表面划伤问题】状态由「整改中」变更为「已整改」。操作人：系统。备注：提交整改措施",
+      "old_status": "rectifying",
+      "new_status": "rectified",
+      "is_read": "0",
+      "created_at": "DATETIME(NOW"
+    },
+    {
+      "id": "notif_bdf6358ae3b743e2",
+      "user_id": "user_quality",
+      "problem_id": "prob_fb272f62525146c1",
+      "content": "【验证测试-模具表面划伤问题】状态由「已整改」变更为「复测通过」。操作人：系统。备注：复测通过",
+      "old_status": "rectified",
+      "new_status": "retest_passed",
+      "is_read": "0",
+      "created_at": "DATETIME(NOW"
+    },
+    {
+      "id": "notif_4fb75acb29e7491c",
+      "user_id": "user_mold",
+      "problem_id": "prob_fb272f62525146c1",
+      "content": "【验证测试-模具表面划伤问题】状态由「已整改」变更为「复测通过」。操作人：系统。备注：复测通过",
+      "old_status": "rectified",
+      "new_status": "retest_passed",
+      "is_read": "0",
+      "created_at": "DATETIME(NOW"
+    },
+    {
+      "id": "notif_a54183f046e94ad8",
+      "user_id": "user_mold",
+      "problem_id": "prob_fb272f62525146c1",
+      "content": "【验证测试-模具表面划伤问题】状态由「复测通过」变更为「已关闭」。操作人：李质检。备注：关闭审批通过",
+      "old_status": "retest_passed",
+      "new_status": "closed",
+      "is_read": "0",
+      "created_at": "DATETIME(NOW"
     }
   ]
 }

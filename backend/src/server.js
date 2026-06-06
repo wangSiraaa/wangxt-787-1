@@ -16,12 +16,14 @@ const defectLevelsRouter = require('./routes/defectLevels');
 const batchesRouter = require('./routes/batches');
 const problemsRouter = require('./routes/problems');
 const dashboardRouter = require('./routes/dashboard');
+const { router: subscriptionsRouter } = require('./routes/subscriptions');
 
 app.use('/api/users', usersRouter);
 app.use('/api/defect-levels', defectLevelsRouter);
 app.use('/api/batches', batchesRouter);
 app.use('/api/problems', problemsRouter);
 app.use('/api/dashboard', dashboardRouter);
+app.use('/api/subscriptions', subscriptionsRouter);
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: '模具试模问题闭环系统 API 运行正常', timestamp: new Date().toISOString() });

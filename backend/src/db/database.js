@@ -46,6 +46,8 @@ function getInitialData() {
     retest_records: [],
     approval_records: [],
     problem_status_logs: [],
+    subscriptions: [],
+    notifications: [],
   };
 }
 

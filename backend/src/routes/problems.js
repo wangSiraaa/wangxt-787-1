@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../db/database');
 const { generateId, parseJSON, stringifyJSON } = require('../utils/helpers');
 const { PROBLEM_STATUS, canCloseProblem, handleRetestFailed, getProblemWithOverdueInfo } = require('../services/businessRules');
+const { notifySubscribers } = require('./subscriptions');
 
 function logStatusChange(problemId, oldStatus, newStatus, operatorId, remark = '') {
   const id = generateId('log_');
@@ -107,6 +108,7 @@ router.post('/', (req, res) => {
   );
 
   logStatusChange(id, null, PROBLEM_STATUS.REGISTERED, reported_by, '问题登记');
+  notifySubscribers(id, null, PROBLEM_STATUS.REGISTERED, reported_by, '问题登记');
 
   const newProblem = db.prepare('SELECT * FROM problems WHERE id = ?').get(id);
   newProblem.photo_urls = parseJSON(newProblem.photo_urls, []);
@@ -134,6 +136,7 @@ router.put('/:id/assign', (req, res) => {
 
   updateStmt.run(responsible_person_id, deadline || null, PROBLEM_STATUS.ASSIGNED, req.params.id);
   logStatusChange(req.params.id, oldStatus, PROBLEM_STATUS.ASSIGNED, operator_id, '整改派发');
+  notifySubscribers(req.params.id, oldStatus, PROBLEM_STATUS.ASSIGNED, operator_id, '整改派发');
 
   const updated = db.prepare('SELECT * FROM problems WHERE id = ?').get(req.params.id);
   res.json({ success: true, data: getProblemWithOverdueInfo(updated), message: '已派发整改任务' });
@@ -153,6 +156,7 @@ router.put('/:id/start-rectify', (req, res) => {
   `).run(PROBLEM_STATUS.RECTIFYING, req.params.id);
 
   logStatusChange(req.params.id, oldStatus, PROBLEM_STATUS.RECTIFYING, operator_id, '开始整改');
+  notifySubscribers(req.params.id, oldStatus, PROBLEM_STATUS.RECTIFYING, operator_id, '开始整改');
 
   const updated = db.prepare('SELECT * FROM problems WHERE id = ?').get(req.params.id);
   res.json({ success: true, data: getProblemWithOverdueInfo(updated), message: '已开始整改' });
@@ -181,6 +185,7 @@ router.post('/:id/measures', (req, res) => {
       UPDATE problems SET status = ?, updated_at = datetime('now') WHERE id = ?
     `).run(PROBLEM_STATUS.RECTIFIED, req.params.id);
     logStatusChange(req.params.id, oldStatus, PROBLEM_STATUS.RECTIFIED, submitted_by, '提交整改措施');
+    notifySubscribers(req.params.id, oldStatus, PROBLEM_STATUS.RECTIFIED, submitted_by, '提交整改措施');
   }
 
   const newMeasure = db.prepare('SELECT * FROM rectification_measures WHERE id = ?').get(id);
@@ -212,10 +217,12 @@ router.post('/:id/retest', (req, res) => {
     db.prepare(`UPDATE problems SET status = ?, updated_at = datetime('now') WHERE id = ?`)
       .run(newStatus, req.params.id);
     logStatusChange(req.params.id, oldStatus, newStatus, tested_by, '复测通过');
+    notifySubscribers(req.params.id, oldStatus, newStatus, tested_by, '复测通过');
   } else {
     const handleResult = handleRetestFailed(req.params.id);
     newStatus = handleResult.newStatus;
     logStatusChange(req.params.id, oldStatus, newStatus, tested_by, '复测失败，退回整改');
+    notifySubscribers(req.params.id, oldStatus, newStatus, tested_by, '复测失败，退回整改');
   }
 
   const updated = db.prepare('SELECT * FROM problems WHERE id = ?').get(req.params.id);
@@ -251,6 +258,7 @@ router.put('/:id/close', (req, res) => {
   `).run(PROBLEM_STATUS.CLOSED, req.params.id);
 
   logStatusChange(req.params.id, oldStatus, PROBLEM_STATUS.CLOSED, approver_id, '关闭审批通过');
+  notifySubscribers(req.params.id, oldStatus, PROBLEM_STATUS.CLOSED, approver_id, '关闭审批通过');
 
   const updated = db.prepare('SELECT * FROM problems WHERE id = ?').get(req.params.id);
   res.json({ success: true, data: getProblemWithOverdueInfo(updated), message: '问题已关闭' });
