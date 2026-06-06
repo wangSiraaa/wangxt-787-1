@@ -1,0 +1,18 @@
+{
+  "name": "mold-trial-closure-system",
+  "version": "1.0.0",
+  "description": "模具试模问题闭环全栈应用",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "start:dev": "cd backend && npm run dev",
+    "init:db": "cd backend && node src/scripts/initDB.js",
+    "init:demo": "cd backend && node src/scripts/initDemoData.js",
+    "smoke": "cd backend && node src/scripts/smokeTest.js",
+    "start:smoke": "npm run init:db && npm run start"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
