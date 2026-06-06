@@ -1,0 +1,198 @@
+{
+  "users": [
+    {
+      "id": "user_engineer",
+      "username": "engineer01",
+      "name": "张工程师",
+      "role": "engineer",
+      "created_at": "2026-06-06 20:48:55"
+    },
+    {
+      "id": "user_quality",
+      "username": "quality01",
+      "name": "李质检",
+      "role": "quality",
+      "created_at": "2026-06-06 20:48:55"
+    },
+    {
+      "id": "user_resp",
+      "username": "resp01",
+      "name": "王整改",
+      "role": "rectification",
+      "created_at": "2026-06-06 20:48:55"
+    },
+    {
+      "id": "user_retest",
+      "username": "retest01",
+      "name": "赵复测",
+      "role": "retest",
+      "created_at": "2026-06-06 20:48:55"
+    },
+    {
+      "id": "user_approver",
+      "username": "approver01",
+      "name": "孙审批",
+      "role": "approver",
+      "created_at": "2026-06-06 20:48:55"
+    }
+  ],
+  "defect_levels": [
+    {
+      "id": "defect_critical",
+      "name": "严重",
+      "level": 1,
+      "description": "关键尺寸超差、功能失效，必须复测通过才能关闭",
+      "require_retest": 1,
+      "created_at": "2026-06-06 20:48:55"
+    },
+    {
+      "id": "defect_major",
+      "name": "重要",
+      "level": 2,
+      "description": "重要特性不达标，需要整改",
+      "require_retest": 0,
+      "created_at": "2026-06-06 20:48:55"
+    },
+    {
+      "id": "defect_minor",
+      "name": "一般",
+      "level": 3,
+      "description": "轻微外观或非关键问题",
+      "require_retest": 0,
+      "created_at": "2026-06-06 20:48:55"
+    },
+    {
+      "id": "defect_suggestion",
+      "name": "建议",
+      "level": 4,
+      "description": "优化建议类问题",
+      "require_retest": 0,
+      "created_at": "2026-06-06 20:48:55"
+    }
+  ],
+  "mold_batches": [
+    {
+      "id": "batch_a1be255a863a42a0",
+      "batch_no": "TEST-001",
+      "mold_code": "MOLD-001",
+      "mold_name": "测试模具",
+      "project_name": "测试项目",
+      "trial_date": "2024-01-15",
+      "trial_params": {},
+      "created_by": "user_engineer",
+      "status": "processing",
+      "conclusion": "processing",
+      "updated_at": "2026-06-06 20:51:56"
+    },
+    {
+      "id": "batch_8209e673a4b24f81",
+      "batch_no": "SMOKE-TEST-001",
+      "mold_code": "TEST-MOLD-001",
+      "mold_name": "测试模具",
+      "project_name": "Smoke测试项目",
+      "trial_date": "2024-01-15",
+      "trial_params": {
+        "temperature": 200,
+        "pressure": 100
+      },
+      "created_by": "user_engineer",
+      "status": "processing"
+    }
+  ],
+  "problems": [
+    {
+      "id": "prob_3b287b2ef6514c4f",
+      "batch_id": "batch_a1be255a863a42a0",
+      "title": "测试严重问题",
+      "description": "测试描述",
+      "defect_level_id": "defect_critical",
+      "photo_urls": "[]",
+      "reported_by": "user_quality",
+      "status": "registered"
+    },
+    {
+      "id": "prob_1dff62f44fd2425a",
+      "batch_id": "batch_8209e673a4b24f81",
+      "title": "Smoke测试-严重尺寸超差问题",
+      "description": "这是一个用于测试的严重问题",
+      "defect_level_id": "defect_critical",
+      "photo_urls": [
+        "/test/photo1.jpg"
+      ],
+      "reported_by": "user_quality",
+      "status": "rectifying",
+      "responsible_person_id": "user_resp",
+      "deadline": "2024-12-31",
+      "updated_at": "2026-06-06 20:52:22"
+    }
+  ],
+  "rectification_measures": [
+    {
+      "id": "meas_769db3fc090741fa",
+      "problem_id": "prob_1dff62f44fd2425a",
+      "measure_text": "1. 调整模具尺寸；2. 优化工艺参数",
+      "submitted_by": "user_resp"
+    }
+  ],
+  "retest_records": [
+    {
+      "id": "retest_32c15a34763d470f",
+      "problem_id": "prob_1dff62f44fd2425a",
+      "result": "failed",
+      "remark": "复测不通过，尺寸仍超差",
+      "photo_urls": "[\"/test/retest-fail.jpg\"]",
+      "tested_by": "user_retest"
+    }
+  ],
+  "approval_records": [],
+  "problem_status_logs": [
+    {
+      "id": "log_05fe720dfab14e74",
+      "problem_id": "prob_3b287b2ef6514c4f",
+      "old_status": null,
+      "new_status": "registered",
+      "operator_id": "user_quality",
+      "remark": "问题登记"
+    },
+    {
+      "id": "log_9724deaf9d5249cc",
+      "problem_id": "prob_1dff62f44fd2425a",
+      "old_status": null,
+      "new_status": "registered",
+      "operator_id": "user_quality",
+      "remark": "问题登记"
+    },
+    {
+      "id": "log_3cfbc6623dc14b7b",
+      "problem_id": "prob_1dff62f44fd2425a",
+      "old_status": "registered",
+      "new_status": "assigned",
+      "operator_id": "user_quality",
+      "remark": "整改派发"
+    },
+    {
+      "id": "log_424bcbd9cb0c41fe",
+      "problem_id": "prob_1dff62f44fd2425a",
+      "old_status": "assigned",
+      "new_status": "rectifying",
+      "operator_id": "user_resp",
+      "remark": "开始整改"
+    },
+    {
+      "id": "log_d9df0f736ac14c50",
+      "problem_id": "prob_1dff62f44fd2425a",
+      "old_status": "rectifying",
+      "new_status": "rectified",
+      "operator_id": "user_resp",
+      "remark": "提交整改措施"
+    },
+    {
+      "id": "log_04bd6e0a84c14f4f",
+      "problem_id": "prob_1dff62f44fd2425a",
+      "old_status": "rectified",
+      "new_status": "rectifying",
+      "operator_id": "user_retest",
+      "remark": "复测失败，退回整改"
+    }
+  ]
+}

@@ -91,29 +91,72 @@ class Database {
     return [];
   }
 
+  _getRowValue(row, field) {
+    const f = field.toLowerCase();
+    return row[f] ?? row[f.toUpperCase()];
+  }
+
   _handleSelect(sql, params) {
+    const selectClause = sql.match(/SELECT\s+(.+?)\s+FROM/i)?.[1];
     const tableMatch = sql.match(/FROM\s+(\w+)/i);
     if (!tableMatch) return [];
-    const tableName = tableMatch[1].toLowerCase();
-    const table = db[tableName] || db[tableName.toUpperCase()];
-    if (!table) return [];
+    const mainTableName = tableMatch[1].toLowerCase();
+    const mainTable = db[mainTableName] || db[mainTableName.toUpperCase()];
+    if (!mainTable) return [];
 
-    let results = [...table];
+    let results = [...mainTable];
+    let paramIdx = 0;
+
+    const joinMatches = [...sql.matchAll(/(LEFT\s+)?JOIN\s+(\w+)\s+(?:ON\s+(.+?))?(?=\s+(?:LEFT\s+)?JOIN|WHERE|GROUP|ORDER|LIMIT|$)/gi)];
+    for (const jm of joinMatches) {
+      const joinTableName = jm[2]?.toLowerCase();
+      const joinTable = db[joinTableName] || db[joinTableName?.toUpperCase()];
+      const onClause = jm[3];
+      if (joinTable && onClause) {
+        const parts = onClause.split(/\s*=\s*/);
+        const leftF = parts[0]?.split('.').pop()?.trim().toLowerCase();
+        const rightF = parts[1]?.split('.').pop()?.trim().toLowerCase();
+        if (leftF && rightF) {
+          const isLeft = !!jm[1];
+          results = results.flatMap(mainRow => {
+            const mainVal = this._getRowValue(mainRow, leftF);
+            const matches = joinTable.filter(jr => this._getRowValue(jr, rightF) === mainVal);
+            if (matches.length === 0 && isLeft) {
+              const empty = {};
+              joinTable.length > 0 && Object.keys(joinTable[0]).forEach(k => { empty[k] = null; });
+              return [{ ...mainRow, ...empty }];
+            }
+            return matches.map(jr => ({ ...mainRow, ...jr }));
+          });
+        }
+      }
+    }
+
+    const hasCount = /COUNT\s*\(/i.test(selectClause || '');
+
+    if (hasCount) {
+      const aliasMatch = selectClause?.match(/AS\s+(\w+)/i);
+      const alias = aliasMatch ? aliasMatch[1].toLowerCase() : 'count';
+      const whereMatch = sql.match(/WHERE\s+(.+?)(?:ORDER|GROUP|LIMIT|$)/i);
+      if (whereMatch) {
+        results = results.filter(row => this._evaluateWhere(row, whereMatch[1].trim(), params));
+      }
+      return [{ [alias]: results.length }];
+    }
 
     const whereMatch = sql.match(/WHERE\s+(.+?)(?:ORDER|GROUP|LIMIT|$)/i);
     if (whereMatch) {
-      const whereClause = whereMatch[1].trim();
-      results = results.filter(row => this._evaluateWhere(row, whereClause, params));
+      results = results.filter(row => this._evaluateWhere(row, whereMatch[1].trim(), params));
     }
 
     const orderMatch = sql.match(/ORDER\s+BY\s+(.+?)(?:LIMIT|$)/i);
     if (orderMatch) {
       const orderStr = orderMatch[1].trim();
       const [fieldRaw, direction] = orderStr.split(/\s+/);
-      const field = fieldRaw.toLowerCase();
+      const field = fieldRaw.split('.').pop().toLowerCase();
       results.sort((a, b) => {
-        const aVal = a[field] ?? a[field.toUpperCase()];
-        const bVal = b[field] ?? b[field.toUpperCase()];
+        const aVal = this._getRowValue(a, field);
+        const bVal = this._getRowValue(b, field);
         const cmp = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
         return direction?.toUpperCase() === 'DESC' ? -cmp : cmp;
       });

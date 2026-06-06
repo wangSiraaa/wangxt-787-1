@@ -12,7 +12,6 @@ COPY backend ./backend
 COPY frontend ./frontend
 
 RUN npm run build:frontend
-RUN npm run init:db
 
 EXPOSE 3001
 

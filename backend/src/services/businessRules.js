@@ -35,12 +35,8 @@ function hasUnclosedCriticalProblems(batchId) {
   const criticalLevel = db.prepare("SELECT id FROM defect_levels WHERE name = '严重'").get();
   if (!criticalLevel) return false;
 
-  const count = db.prepare(`
-    SELECT COUNT(*) as count FROM problems
-    WHERE batch_id = ? AND defect_level_id = ? AND status != ?
-  `).get(batchId, criticalLevel.id, PROBLEM_STATUS.CLOSED);
-
-  return count.count > 0;
+  const problems = db.prepare('SELECT * FROM problems WHERE batch_id = ?').all(batchId);
+  return problems.some(p => (p.defect_level_id || p.DEFECT_LEVEL_ID) === criticalLevel.id && (p.status || p.STATUS) !== PROBLEM_STATUS.CLOSED);
 }
 
 function canCloseProblem(problemId) {
